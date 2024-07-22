@@ -35,66 +35,16 @@
         document.addEventListener('DOMContentLoaded', function() {
             let urlParams = new URLSearchParams(window.location.search);
             let code = urlParams.get('code');
+
+            // Obtener los códigos usados del localStorage
             let usedCodes = JSON.parse(localStorage.getItem('usedCodes')) || [];
 
-            if (usedCodes.includes(code)) {
-                // Eliminar el código de la lista de códigos usados
-                usedCodes = usedCodes.filter(c => c !== code);
+            if (!usedCodes.includes(code)) {
+                // Si el código no está en la lista de usados, lo marcamos como usado
+                usedCodes.push(code);
                 localStorage.setItem('usedCodes', JSON.stringify(usedCodes));
 
-                Swal.fire('Gracias por su compra', '', 'success');
-            } else {
-                Swal.fire('Código inválido', 'Este código ya ha sido usado o no es válido.', 'error');
-            }
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Ticket Express</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        body {
-            background-color: #080202;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            text-align: center;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>QR Ticket Express</h1>
-        <div id="message"></div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let urlParams = new URLSearchParams(window.location.search);
-            let code = urlParams.get('code');
-            let usedCodes = JSON.parse(localStorage.getItem('usedCodes')) || [];
-
-            if (usedCodes.includes(code)) {
-                // Eliminar el código de la lista de códigos usados
-                usedCodes = usedCodes.filter(c => c !== code);
-                localStorage.setItem('usedCodes', JSON.stringify(usedCodes));
-
-                Swal.fire('Gracias por su compra', '', 'success');
+                Swal.fire('Código válido', 'Este código es válido y se ha registrado.', 'success');
             } else {
                 Swal.fire('Código inválido', 'Este código ya ha sido usado o no es válido.', 'error');
             }
